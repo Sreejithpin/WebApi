@@ -60,6 +60,62 @@ namespace Microsoft.Test.E2E.AspNet.OData.NavigationPropertyOnComplexType
         }
 
         [Fact]
+        public void QueryOnComplexTypePropertyWithSelectAndExpand()
+        {
+            // Arrange
+            string requestUri = string.Format(PeopleBaseUrl, BaseAddress) + "(1)?$select=HomeLocation/Street&$expand=HomeLocation/ZipCode";
+
+            string equals = "{\"@odata.context\":\"BASE_ADDRESS/odata/$metadata#People(HomeLocation/Street,HomeLocation/ZipCode())/$entity\"," +
+                "\"HomeLocation\":{\"Street\":\"110th\"," +
+                "\"ZipCode\":{\"Zip\":98052,\"City\":\"Redmond\",\"State\":\"Washington\"}}}";
+
+            // Act & Assert
+            ExecuteAndVerifyQueryRequest(requestUri, contains: null, equals: equals);
+        }
+
+        [Theory]
+        [InlineData("HomeLocation/Street,HomeLocation/TaxNo")]
+        [InlineData("HomeLocation($select=Street,TaxNo)")]
+        public void QueryComplexTypePropertyWithSelectOnly(string select)
+        {
+            // Arrange
+            string requestUri = string.Format(PeopleBaseUrl, BaseAddress) + "(1)?$select="+select;
+
+            string equals = "{\"@odata.context\":\"BASE_ADDRESS/odata/$metadata#People(HomeLocation/Street,HomeLocation/TaxNo)/$entity\"," +
+          "\"HomeLocation\":{\"Street\":\"110th\"," +
+          "\"TaxNo\":19}}";
+
+            // Act & Assert
+            ExecuteAndVerifyQueryRequest(requestUri, contains: null, equals: equals);
+        }
+
+       
+
+        [Fact]
+        public void QueryComplexTypePropertyWithSelectinExpand()
+        {
+            // Arrange
+            string requestUri = string.Format(PeopleBaseUrl, BaseAddress) + "(1)?$expand=HomeLocation/ZipCode($select=City)";
+
+            string contains = "{\"@odata.context\":\"BASE_ADDRESS/odata/$metadata#People(HomeLocation/ZipCode(City))";
+
+            // Act & Assert
+            ExecuteAndVerifyQueryRequest(requestUri, contains: contains, equals: null);
+        }
+
+        [Fact]
+        public void QueryWithComplexTypePropertyWithSelectandExpand()
+        {
+            // Arrange
+            string requestUri = string.Format(PeopleBaseUrl, BaseAddress) + "(1)?$select=HomeLocation&$expand=HomeLocation/ZipCode";
+
+            string contains = "{\"@odata.context\":\"BASE_ADDRESS/odata/$metadata#People(HomeLocation,HomeLocation/ZipCode())";
+
+            // Act & Assert
+            ExecuteAndVerifyQueryRequest(requestUri, contains: contains, equals: null);
+        }
+
+        [Fact]
         public void QueryCollectionComplexTypePropertyWithSelectAndExpand()
         {
             // Arrange

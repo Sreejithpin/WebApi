@@ -105,8 +105,8 @@ namespace Microsoft.Test.E2E.AspNet.OData.NavigationPropertyOnComplexType
         }
 
         [Theory]
-        [InlineData("HomeLocation/ZipCode,HomeLocation/Street")]
-        // [InlineData("HomeLocation($select=ZipCode,Street)")] See https://github.com/OData/odata.net/issues/1574#issuecomment-547570980
+         [InlineData("HomeLocation/ZipCode,HomeLocation/Street")]
+         [InlineData("HomeLocation($select=ZipCode,Street)")] //See https://github.com/OData/odata.net/issues/1574#issuecomment-547570980
         public void QueryEntityWithSelectOnSubNavigationPropertyOfComplexTypeProperty(string select)
         {
             // Arrange
@@ -121,16 +121,8 @@ namespace Microsoft.Test.E2E.AspNet.OData.NavigationPropertyOnComplexType
                     "\"ZipCode@odata.associationLink\":\"BASE_ADDRESS/odata/People(1)/HomeLocation/ZipCode/$ref\"," +
                     "\"ZipCode@odata.navigationLink\":\"BASE_ADDRESS/odata/People(1)/HomeLocation/ZipCode\"" +
                 "}";
-            string equals;
-            if (select.Contains("$select="))
-            {
-                equals = "{\"@odata.context\":\"BASE_ADDRESS/odata/$metadata#People(HomeLocation)/$entity\"," + value + "}";
-            }
-            else
-            {
-                equals = "{\"@odata.context\":\"BASE_ADDRESS/odata/$metadata#People(HomeLocation/ZipCode,HomeLocation/Street)/$entity\"," + value + "}";
-            }
-
+            string equals = "{\"@odata.context\":\"BASE_ADDRESS/odata/$metadata#People(HomeLocation/ZipCode,HomeLocation/Street)/$entity\"," + value + "}";
+           
             // Act & Assert
             ExecuteAndVerifyQueryRequest(requestUri, equals);
         }
