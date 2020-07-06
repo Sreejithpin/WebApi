@@ -8,12 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Microsoft.AspNet.OData.Common
-{
+namespace Microsoft.AspNet.OData.Properties {
     using System;
-    using System.Linq;
-    using System.Reflection;
-
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -21,7 +19,7 @@ namespace Microsoft.AspNet.OData.Common
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class SRResources {
@@ -41,16 +39,7 @@ namespace Microsoft.AspNet.OData.Common
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    Assembly assembly = TypeHelper.GetAssembly(typeof(CommonWebApiResources));
-
-                    // Find the CommonResources.resources file's full resource name in this assembly
-                    string srResourcesName = assembly.GetManifestResourceNames().Where(s => s.EndsWith("SRResources.resources", StringComparison.OrdinalIgnoreCase)).Single();
-
-                    // Trim off the ".resources"
-                    srResourcesName = srResourcesName.Substring(0, srResourcesName.Length - 10);
-
-                    // Load the resource manager
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager(srResourcesName, assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Microsoft.AspNet.OData.Properties.SRResources", typeof(SRResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -124,18 +113,16 @@ namespace Microsoft.AspNet.OData.Common
                 return ResourceManager.GetString("ActionNotBoundToEntity", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to {0} type of aggregation is not supported..
         /// </summary>
-        internal static string AggregateKindNotSupported
-        {
-            get
-            {
+        internal static string AggregateKindNotSupported {
+            get {
                 return ResourceManager.GetString("AggregateKindNotSupported", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Aggregation method &apos;{0}&apos; is not supported..
         /// </summary>
@@ -153,18 +140,25 @@ namespace Microsoft.AspNet.OData.Common
                 return ResourceManager.GetString("AggregationNotSupportedForType", resourceCulture);
             }
         }
-
+        
         /// <summary>
-        ///   $apply query options not supported for LINQ to SQL providers
+        ///   Looks up a localized string similar to The name of Annotation property &apos;{0}&apos; was already used as the declared property name of open type &apos;{1}&apos;..
         /// </summary>
-        internal static string ApplyQueryOptionNotSupportedForLinq2SQL
-        {
-            get
-            {
+        internal static string AnnotationPropertyNameAlreadyUsedAsDeclaredPropertyName {
+            get {
+                return ResourceManager.GetString("AnnotationPropertyNameAlreadyUsedAsDeclaredPropertyName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to $apply query options not supported for LINQ to SQL providers.
+        /// </summary>
+        internal static string ApplyQueryOptionNotSupportedForLinq2SQL {
+            get {
                 return ResourceManager.GetString("ApplyQueryOptionNotSupportedForLinq2SQL", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to The query option is not bound to any CLR type. &apos;{0}&apos; is only supported with a query option bound to a CLR type..
         /// </summary>
@@ -184,7 +178,7 @@ namespace Microsoft.AspNet.OData.Common
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The batch request must have &apos;{0}&apos; as the media type..
+        ///   Looks up a localized string similar to The batch request must have &apos;{0}&apos; or &apos;{1}&apos; as the media type..
         /// </summary>
         internal static string BatchRequestInvalidMediaType {
             get {
@@ -274,20 +268,20 @@ namespace Microsoft.AspNet.OData.Common
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The property &apos;{0}&apos; does not exist on type &apos;{1}&apos;. Make sure to only use property names that are defined by the type..
-        /// </summary>
-        internal static string CannotDeserializeUnknownProperty {
-            get {
-                return ResourceManager.GetString("CannotDeserializeUnknownProperty", resourceCulture);
-            }
-        }
-
-        /// <summary>
         ///   Looks up a localized string similar to Cannot define keys on type &apos;{0}&apos; deriving from &apos;{1}&apos;. The base type in the entity inheritance hierarchy already contains keys..
         /// </summary>
         internal static string CannotDefineKeysOnDerivedTypes {
             get {
                 return ResourceManager.GetString("CannotDefineKeysOnDerivedTypes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The property &apos;{0}&apos; does not exist on type &apos;{1}&apos;. Make sure to only use property names that are defined by the type..
+        /// </summary>
+        internal static string CannotDeserializeUnknownProperty {
+            get {
+                return ResourceManager.GetString("CannotDeserializeUnknownProperty", resourceCulture);
             }
         }
         
@@ -364,6 +358,15 @@ namespace Microsoft.AspNet.OData.Common
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The Annotation dictionary property &apos;{0}&apos; of type &apos;{1}&apos; cannot be set. The Annotation property dictionary must have a setter..
+        /// </summary>
+        internal static string CannotSetAnnotationPropertyDictionary {
+            get {
+                return ResourceManager.GetString("CannotSetAnnotationPropertyDictionary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The dynamic dictionary property &apos;{0}&apos; of type &apos;{1}&apos; cannot be set. The dynamic property dictionary must have a setter..
         /// </summary>
         internal static string CannotSetDynamicPropertyDictionary {
@@ -387,6 +390,15 @@ namespace Microsoft.AspNet.OData.Common
         internal static string ClrTypeNotInModel {
             get {
                 return ResourceManager.GetString("ClrTypeNotInModel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The entity type &apos;{0}&apos; of navigation property &apos;{1}&apos; on structural type &apos;{2}&apos; does not have a key defined..
+        /// </summary>
+        internal static string CollectionNavigationPropertyEntityTypeDoesntHaveKeyDefined {
+            get {
+                return ResourceManager.GetString("CollectionNavigationPropertyEntityTypeDoesntHaveKeyDefined", resourceCulture);
             }
         }
         
@@ -454,6 +466,15 @@ namespace Microsoft.AspNet.OData.Common
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot find nested resource name &apos;{0}&apos; in parent resource type &apos;{1}&apos;.
+        /// </summary>
+        internal static string DeltaNestedResourceNameNotFound {
+            get {
+                return ResourceManager.GetString("DeltaNestedResourceNameNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cannot use Delta of type &apos;{0}&apos; on an entity of type &apos;{1}&apos;..
         /// </summary>
         internal static string DeltaTypeMismatch {
@@ -461,18 +482,7 @@ namespace Microsoft.AspNet.OData.Common
                 return ResourceManager.GetString("DeltaTypeMismatch", resourceCulture);
             }
         }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Cannot find nested resource name &apos;{0}&apos; in parent resource type &apos;{1}&apos;..
-        /// </summary>
-        internal static string DeltaNestedResourceNameNotFound
-        {
-            get
-            {
-                return ResourceManager.GetString("DeltaNestedResourceNameNotFound", resourceCulture);
-            }
-        }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to The dependent property type &apos;{0}&apos; is not same as the principal property type &apos;{1}. The dependent and principal properties must have must have same types in the same order..
         /// </summary>
@@ -497,6 +507,15 @@ namespace Microsoft.AspNet.OData.Common
         internal static string DoesNotSupportReadInLine {
             get {
                 return ResourceManager.GetString("DoesNotSupportReadInLine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Duplicate Annotation property name &apos;{0}&apos; found in open type &apos;{1}&apos;. Each Annotation property name must be unique..
+        /// </summary>
+        internal static string DuplicateAnnotationPropertyNameFound {
+            get {
+                return ResourceManager.GetString("DuplicateAnnotationPropertyNameFound", resourceCulture);
             }
         }
         
@@ -663,22 +682,20 @@ namespace Microsoft.AspNet.OData.Common
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The entity set &apos;{0}&apos; is based on type &apos;{1}&apos; that has no keys defined..
+        /// </summary>
+        internal static string EntitySetTypeHasNoKeys {
+            get {
+                return ResourceManager.GetString("EntitySetTypeHasNoKeys", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The entity &apos;{0}&apos; does not have a key defined..
         /// </summary>
         internal static string EntityTypeDoesntHaveKeyDefined {
             get {
                 return ResourceManager.GetString("EntityTypeDoesntHaveKeyDefined", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to The entity type &apos;{0}&apos; of navigation property &apos;{1}&apos; on structural type &apos;{2}&apos; does not have a key defined..
-        /// </summary>
-        internal static string CollectionNavigationPropertyEntityTypeDoesntHaveKeyDefined
-        {
-            get
-            {
-                return ResourceManager.GetString("CollectionNavigationPropertyEntityTypeDoesntHaveKeyDefined", resourceCulture);
             }
         }
         
@@ -872,6 +889,15 @@ namespace Microsoft.AspNet.OData.Common
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The instance annotation for &apos;{0}&apos; with Edm type &apos;{1}&apos; cannot be serialized..
+        /// </summary>
+        internal static string InstanceAnnotationCannotBeSerialized {
+            get {
+                return ResourceManager.GetString("InstanceAnnotationCannotBeSerialized", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The attribute routing template contains invalid segment &apos;{0}&apos;..
         /// </summary>
         internal static string InvalidAttributeRoutingTemplateSegment {
@@ -935,6 +961,15 @@ namespace Microsoft.AspNet.OData.Common
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The last segment &apos;{0}&apos; of the select or expand query option is not supported..
+        /// </summary>
+        internal static string InvalidLastSegmentInSelectExpandPath {
+            get {
+                return ResourceManager.GetString("InvalidLastSegmentInSelectExpandPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The given OData path template &apos;{0}&apos; is invalid..
         /// </summary>
         internal static string InvalidODataPathTemplate {
@@ -971,6 +1006,15 @@ namespace Microsoft.AspNet.OData.Common
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Type &apos;{0}&apos; is not supported as Annotation property annotation. Referenced property must be of type &apos;{1}&apos;..
+        /// </summary>
+        internal static string InvalidPropertyInfoForAnnotationPropertyAnnotation {
+            get {
+                return ResourceManager.GetString("InvalidPropertyInfoForAnnotationPropertyAnnotation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Type &apos;{0}&apos; is not supported as dynamic property annotation. Referenced property must be of type &apos;{1}&apos;..
         /// </summary>
         internal static string InvalidPropertyInfoForDynamicPropertyAnnotation {
@@ -994,6 +1038,15 @@ namespace Microsoft.AspNet.OData.Common
         internal static string InvalidPropertyMapping {
             get {
                 return ResourceManager.GetString("InvalidPropertyMapping", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A segment &apos;{0}&apos; within the select or expand query option is not supported..
+        /// </summary>
+        internal static string InvalidSegmentInSelectExpandPath {
+            get {
+                return ResourceManager.GetString("InvalidSegmentInSelectExpandPath", resourceCulture);
             }
         }
         
@@ -1131,7 +1184,7 @@ namespace Microsoft.AspNet.OData.Common
                 return ResourceManager.GetString("MemberExpressionsMustBeBoundToLambdaParameter", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Member &apos;{0}.{1}&apos; is not a property..
         /// </summary>
@@ -1140,40 +1193,34 @@ namespace Microsoft.AspNet.OData.Common
                 return ResourceManager.GetString("MemberExpressionsMustBeProperties", resourceCulture);
             }
         }
-
+        
         /// <summary>
-        ///   Looks up a localized string similar to Cannot find '{0}'. OData services have not been configured. Are you missing a call to AddOData()?.
+        ///   Looks up a localized string similar to Cannot find the services container for the non-OData route. This can occur when using OData components on the non-OData route and is usually a configuration issue. Call EnableDependencyInjection() to enable OData components on non-OData routes. This may also occur when a request was mistakenly handled by the ASP.NET Core routing layer instead of the OData routing layer, for instance the URL does not include the OData route prefix configured via a call to MapODataServiceRoute()..
         /// </summary>
-        internal static string MissingODataServices
-        {
-            get
-            {
-                return ResourceManager.GetString("MissingODataServices", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Cannot find the services container for route '{0}'. This should not happen and represents a bug.
-        /// </summary>
-        internal static string MissingODataContainer
-        {
-            get
-            {
-                return ResourceManager.GetString("MissingODataContainer", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Cannot find the services container for the non-OData route. This can occur when using OData components on the non-OData route and is usually a configuration issue. Call EnableDependencyInjection() to enable OData components on non-OData routes. This may also occur when a request was mistakenly handled by the ASP.NET Core routing layer instead of the OData routing layer, for instance the URL does not include the OData route prefix configured via a call to MapODataServiceRoute().
-        /// </summary>
-        internal static string MissingNonODataContainer
-        {
-            get
-            {
+        internal static string MissingNonODataContainer {
+            get {
                 return ResourceManager.GetString("MissingNonODataContainer", resourceCulture);
             }
         }
-
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot find the services container for route &apos;{0}&apos;. This should not happen and represents a bug..
+        /// </summary>
+        internal static string MissingODataContainer {
+            get {
+                return ResourceManager.GetString("MissingODataContainer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot find &apos;{0}&apos;. The OData services have not been configured. Are you missing a call to AddOData()?.
+        /// </summary>
+        internal static string MissingODataServices {
+            get {
+                return ResourceManager.GetString("MissingODataServices", resourceCulture);
+            }
+        }
+        
         /// <summary>
         ///   Looks up a localized string similar to The binding context cannot have a null ModelMetadata..
         /// </summary>
@@ -1202,6 +1249,15 @@ namespace Microsoft.AspNet.OData.Common
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Found more than one Annotation property container in type &apos;{0}&apos;. Each open type must have at most one Annotation property container..
+        /// </summary>
+        internal static string MoreThanOneAnnotationPropertyContainerFound {
+            get {
+                return ResourceManager.GetString("MoreThanOneAnnotationPropertyContainerFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Found more than one dynamic property container in type &apos;{0}&apos;. Each open type must have at most one dynamic property container..
         /// </summary>
         internal static string MoreThanOneDynamicPropertyContainerFound {
@@ -1209,84 +1265,7 @@ namespace Microsoft.AspNet.OData.Common
                 return ResourceManager.GetString("MoreThanOneDynamicPropertyContainerFound", resourceCulture);
             }
         }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Found more than one Annotation property container in type &apos;{0}&apos;. Each open type must have at most one Annotation property container..
-        /// </summary>
-        internal static string MoreThanOneAnnotationPropertyContainerFound
-        {
-            get
-            {
-                return ResourceManager.GetString("MoreThanOneAnnotationPropertyContainerFound", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to The name of Annotation property &apos;{0}&apos; was already used as the declared property name of open type &apos;{1}&apos;..
-        /// </summary>
-        internal static string AnnotationPropertyNameAlreadyUsedAsDeclaredPropertyName
-        {
-            get
-            {
-                return ResourceManager.GetString("AnnotationPropertyNameAlreadyUsedAsDeclaredPropertyName", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Duplicate Annotation property name &apos;{0}&apos; found in open type &apos;{1}&apos;. Each Annotation property name must be unique..
-        /// </summary>
-        internal static string DuplicateAnnotationPropertyNameFound
-        {
-            get
-            {
-                return ResourceManager.GetString("DuplicateAnnotationPropertyNameFound", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to The Annotation dictionary property &apos;{0}&apos; of type &apos;{1}&apos; cannot be set. The Annotation property dictionary must have a setter..
-        /// </summary>
-        internal static string CannotSetAnnotationPropertyDictionary
-        {
-            get
-            {
-                return ResourceManager.GetString("CannotSetAnnotationPropertyDictionary", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to The instance annotation for &apos;{0}&apos; with Edm type &apos;{1}&apos; cannot be serialized..
-        /// </summary>
-        internal static string InstanceAnnotationCannotBeSerialized
-        {
-            get
-            {
-                return ResourceManager.GetString("InstanceAnnotationCannotBeSerialized", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to The type &apos;{0}&apos; of instance annotation &apos;{1}&apos; is not supported..
-        /// </summary>
-        internal static string TypeOfInstanceAnnotationNotSupported
-        {
-            get
-            {
-                return ResourceManager.GetString("TypeOfInstanceAnnotationNotSupported", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Type &apos;{0}&apos; is not supported as Annotation property annotation. Referenced property must be of type &apos;{1}&apos;..
-        /// </summary>
-        internal static string InvalidPropertyInfoForAnnotationPropertyAnnotation
-        {
-            get
-            {
-                return ResourceManager.GetString("InvalidPropertyInfoForAnnotationPropertyAnnotation", resourceCulture);
-            }
-        }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to More than one Operation called &apos;{0}&apos; was found. Try using the other RemoveOperation override..
         /// </summary>
@@ -1473,17 +1452,6 @@ namespace Microsoft.AspNet.OData.Common
         internal static string NavigationSourceTypeHasNoKeys {
             get {
                 return ResourceManager.GetString("NavigationSourceTypeHasNoKeys", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The entity set &apos;{0}&apos; is based on type &apos;{1}&apos; that has no keys defined..
-        /// </summary>
-        internal static string EntitySetTypeHasNoKeys
-        {
-            get
-            {
-                return ResourceManager.GetString("EntitySetTypeHasNoKeys", resourceCulture);
             }
         }
         
@@ -1884,6 +1852,15 @@ namespace Microsoft.AspNet.OData.Common
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The value must be a boolean..
+        /// </summary>
+        internal static string PropertyMustBeBoolean {
+            get {
+                return ResourceManager.GetString("PropertyMustBeBoolean", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The value must be a DateTimeOffset or Date..
         /// </summary>
         internal static string PropertyMustBeDateTimeOffsetOrDate {
@@ -1891,18 +1868,7 @@ namespace Microsoft.AspNet.OData.Common
                 return ResourceManager.GetString("PropertyMustBeDateTimeOffsetOrDate", resourceCulture);
             }
         }
-
-        /// <summary>
-        ///   Looks up a localized string similar to The value must be a boolean..
-        /// </summary>
-        internal static string PropertyMustBeBoolean
-        {
-            get
-            {
-                return ResourceManager.GetString("PropertyMustBeBoolean", resourceCulture);
-            }
-        }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to The value with type &apos;{0}&apos; must have type &apos;{1}&apos;..
         /// </summary>
@@ -2201,10 +2167,9 @@ namespace Microsoft.AspNet.OData.Common
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The type &apos;{0}&apos; is not an entity type. Only entity types support $select and $expand..
+        ///   Looks up a localized string similar to The type &apos;{0}&apos; is not a structured type. Only structured types support $select and $expand..
         /// </summary>
-        internal static string SelectNonStructured
-        {
+        internal static string SelectNonStructured {
             get {
                 return ResourceManager.GetString("SelectNonStructured", resourceCulture);
             }
@@ -2238,6 +2203,15 @@ namespace Microsoft.AspNet.OData.Common
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unable to parse the skiptoken value. Skiptoken value should always be server generated..
+        /// </summary>
+        internal static string SkipTokenParseError {
+            get {
+                return ResourceManager.GetString("SkipTokenParseError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The limit of &apos;{0}&apos; for {1} query has been exceeded. The value from the incoming request is &apos;{2}&apos;..
         /// </summary>
         internal static string SkipTopLimitExceeded {
@@ -2245,18 +2219,7 @@ namespace Microsoft.AspNet.OData.Common
                 return ResourceManager.GetString("SkipTopLimitExceeded", resourceCulture);
             }
         }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Unable to parse the skiptoken value. Skiptoken value should always be server generated..
-        /// </summary>
-        internal static string SkipTokenParseError
-        {
-            get
-            {
-                return ResourceManager.GetString("SkipTokenParseError", resourceCulture);
-            }
-        }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Could not find the target entity type for the navigation property &apos;{0}&apos; on entity type &apos;{1}&apos;..
         /// </summary>
@@ -2366,6 +2329,15 @@ namespace Microsoft.AspNet.OData.Common
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The type &apos;{0}&apos; of instance annotation &apos;{1}&apos; is not supported..
+        /// </summary>
+        internal static string TypeOfInstanceAnnotationNotSupported {
+            get {
+                return ResourceManager.GetString("TypeOfInstanceAnnotationNotSupported", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The ODataMediaTypeFormatter was unable to determine the base URI for the request. The request must be processed by an OData route for the OData formatter to serialize the response..
         /// </summary>
         internal static string UnableToDetermineBaseUrl {
@@ -2452,28 +2424,6 @@ namespace Microsoft.AspNet.OData.Common
         internal static string UnsupportedSelectExpandPath {
             get {
                 return ResourceManager.GetString("UnsupportedSelectExpandPath", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to A segment &apos;{0}&apos; within the select or expand query option is not supported..
-        /// </summary>
-        internal static string InvalidSegmentInSelectExpandPath
-        {
-            get
-            {
-                return ResourceManager.GetString("InvalidSegmentInSelectExpandPath", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The last segment &apos;{0}&apos; of the select or expand query option is not supported...
-        /// </summary>
-        internal static string InvalidLastSegmentInSelectExpandPath
-        {
-            get
-            {
-                return ResourceManager.GetString("InvalidLastSegmentInSelectExpandPath", resourceCulture);
             }
         }
         

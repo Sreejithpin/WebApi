@@ -104,6 +104,7 @@ public abstract class Microsoft.AspNet.OData.EdmStructuredObject : Delta, IDynam
 	public virtual Microsoft.OData.Edm.IEdmTypeReference GetEdmType ()
 	public virtual System.Collections.Generic.IEnumerable`1[[System.String]] GetUnchangedPropertyNames ()
 	public System.Collections.Generic.Dictionary`2[[System.String],[System.Object]] TryGetDynamicProperties ()
+	public System.Collections.Generic.Dictionary`2[[System.String],[System.Object]] TryGetInstanceAnnotationDictionary ()
 	public virtual bool TryGetPropertyType (string name, out System.Type& type)
 	public virtual bool TryGetPropertyValue (string name, out System.Object& value)
 	public virtual bool TrySetPropertyValue (string name, object value)
@@ -922,6 +923,7 @@ public enum Microsoft.AspNet.OData.Builder.OperationKind : int {
 }
 
 public enum Microsoft.AspNet.OData.Builder.PropertyKind : int {
+	Annotation = 6
 	Collection = 2
 	Complex = 1
 	Dynamic = 5
@@ -1119,8 +1121,10 @@ public abstract class Microsoft.AspNet.OData.Builder.StructuralTypeConfiguration
 	System.Collections.Generic.IDictionary`2[[System.Reflection.PropertyInfo],[Microsoft.AspNet.OData.Builder.PropertyConfiguration]] ExplicitProperties  { protected get; }
 	string FullName  { public virtual get; }
 	System.Collections.ObjectModel.ReadOnlyCollection`1[[System.Reflection.PropertyInfo]] IgnoredProperties  { public get; }
+	System.Reflection.PropertyInfo InstanceAnnotationsDictionary  { public get; }
 	System.Nullable`1[[System.Boolean]] IsAbstract  { public virtual get; public virtual set; }
 	bool IsOpen  { public get; }
+	bool IsWithInstanceAnnotations  { public get; }
 	Microsoft.OData.Edm.EdmTypeKind Kind  { public abstract get; }
 	ODataModelBuilder ModelBuilder  { public virtual get; }
 	string Name  { public virtual get; public virtual set; }
@@ -1136,6 +1140,7 @@ public abstract class Microsoft.AspNet.OData.Builder.StructuralTypeConfiguration
 	public virtual NavigationPropertyConfiguration AddContainedNavigationProperty (System.Reflection.PropertyInfo navigationProperty, Microsoft.OData.Edm.EdmMultiplicity multiplicity)
 	public virtual void AddDynamicPropertyDictionary (System.Reflection.PropertyInfo propertyInfo)
 	public virtual EnumPropertyConfiguration AddEnumProperty (System.Reflection.PropertyInfo propertyInfo)
+	public virtual void AddInstanceAnnotationDictionary (System.Reflection.PropertyInfo propertyInfo)
 	public virtual NavigationPropertyConfiguration AddNavigationProperty (System.Reflection.PropertyInfo navigationProperty, Microsoft.OData.Edm.EdmMultiplicity multiplicity)
 	public virtual PrimitivePropertyConfiguration AddProperty (System.Reflection.PropertyInfo propertyInfo)
 	internal virtual void DerivesFromImpl (StructuralTypeConfiguration baseType)
@@ -1148,6 +1153,7 @@ public abstract class Microsoft.AspNet.OData.Builder.StructuralTypeConfiguration
 
 	string FullName  { public get; }
 	bool IsOpen  { public get; }
+	bool IsWithInstanceAnnotations  { public get; }
 	string Name  { public get; public set; }
 	string Namespace  { public get; public set; }
 	System.Collections.Generic.IEnumerable`1[[Microsoft.AspNet.OData.Builder.PropertyConfiguration]] Properties  { public get; }
@@ -1174,6 +1180,7 @@ public abstract class Microsoft.AspNet.OData.Builder.StructuralTypeConfiguration
 	public StructuralTypeConfiguration`1 Filter (string[] properties)
 	public StructuralTypeConfiguration`1 Filter (QueryOptionSetting setting, string[] properties)
 	public void HasDynamicProperties (Expression`1 propertyExpression)
+	public void HasInstanceAnnotations (Expression`1 propertyExpression)
 	public NavigationPropertyConfiguration HasMany (Expression`1 navigationPropertyExpression)
 	public NavigationPropertyConfiguration HasOptional (Expression`1 navigationPropertyExpression)
 	public NavigationPropertyConfiguration HasOptional (Expression`1 navigationPropertyExpression, Expression`1 referentialConstraintExpression)
@@ -1190,8 +1197,6 @@ public abstract class Microsoft.AspNet.OData.Builder.StructuralTypeConfiguration
 	public StructuralTypeConfiguration`1 OrderBy (QueryOptionSetting setting, string[] properties)
 	public StructuralTypeConfiguration`1 Page ()
 	public StructuralTypeConfiguration`1 Page (System.Nullable`1[[System.Int32]] maxTopValue, System.Nullable`1[[System.Int32]] pageSizeValue)
-	public LengthPropertyConfiguration Property (Expression`1 propertyExpression)
-	public DecimalPropertyConfiguration Property (Expression`1 propertyExpression)
 	public PrecisionPropertyConfiguration Property (Expression`1 propertyExpression)
 	public PrecisionPropertyConfiguration Property (Expression`1 propertyExpression)
 	public LengthPropertyConfiguration Property (Expression`1 propertyExpression)
@@ -1199,8 +1204,10 @@ public abstract class Microsoft.AspNet.OData.Builder.StructuralTypeConfiguration
 	public PrecisionPropertyConfiguration Property (Expression`1 propertyExpression)
 	public PrecisionPropertyConfiguration Property (Expression`1 propertyExpression)
 	public DecimalPropertyConfiguration Property (Expression`1 propertyExpression)
-	public PrecisionPropertyConfiguration Property (Expression`1 propertyExpression)
 	public PrimitivePropertyConfiguration Property (Expression`1 propertyExpression)
+	public LengthPropertyConfiguration Property (Expression`1 propertyExpression)
+	public PrecisionPropertyConfiguration Property (Expression`1 propertyExpression)
+	public DecimalPropertyConfiguration Property (Expression`1 propertyExpression)
 	public PrimitivePropertyConfiguration Property (Expression`1 propertyExpression)
 	public PrimitivePropertyConfiguration Property (Expression`1 propertyExpression)
 	public StructuralTypeConfiguration`1 Select ()
@@ -1519,6 +1526,12 @@ public class Microsoft.AspNet.OData.Builder.FunctionConfiguration : OperationCon
 	public FunctionConfiguration ReturnsEntityViaEntitySetPath (string[] entitySetPath)
 	public FunctionConfiguration ReturnsFromEntitySet (string entitySetName)
 	public FunctionConfiguration SetBindingParameter (string name, IEdmTypeConfiguration bindingParameterType)
+}
+
+public class Microsoft.AspNet.OData.Builder.InstanceAnnotationDictionaryAnnotation {
+	public InstanceAnnotationDictionaryAnnotation (System.Reflection.PropertyInfo propertyInfo)
+
+	System.Reflection.PropertyInfo PropertyInfo  { public get; }
 }
 
 public class Microsoft.AspNet.OData.Builder.LengthPropertyConfiguration : PrimitivePropertyConfiguration {
@@ -3136,6 +3149,7 @@ public class Microsoft.AspNet.OData.Formatter.Deserialization.ODataPrimitiveDese
 public class Microsoft.AspNet.OData.Formatter.Deserialization.ODataResourceDeserializer : ODataEdmTypeDeserializer {
 	public ODataResourceDeserializer (ODataDeserializerProvider deserializerProvider)
 
+	public virtual void ApplyInstanceAnnotations (object resource, ODataResourceWrapper resourceWrapper, Microsoft.OData.Edm.IEdmStructuredTypeReference structuredType, ODataDeserializerContext readContext)
 	public virtual void ApplyNestedProperties (object resource, ODataResourceWrapper resourceWrapper, Microsoft.OData.Edm.IEdmStructuredTypeReference structuredType, ODataDeserializerContext readContext)
 	public virtual void ApplyNestedProperty (object resource, ODataNestedResourceInfoWrapper resourceInfoWrapper, Microsoft.OData.Edm.IEdmStructuredTypeReference structuredType, ODataDeserializerContext readContext)
 	public virtual void ApplyStructuralProperties (object resource, ODataResourceWrapper resourceWrapper, Microsoft.OData.Edm.IEdmStructuredTypeReference structuredType, ODataDeserializerContext readContext)
@@ -3288,6 +3302,7 @@ public class Microsoft.AspNet.OData.Formatter.Serialization.ODataResourceSeriali
 	public ODataResourceSerializer (ODataSerializerProvider serializerProvider)
 
 	public virtual void AppendDynamicProperties (Microsoft.OData.ODataResource resource, SelectExpandNode selectExpandNode, ResourceContext resourceContext)
+	public virtual void AppendInstanceAnnotations (Microsoft.OData.ODataResource resource, ResourceContext resourceContext)
 	public virtual string CreateETag (ResourceContext resourceContext)
 	public virtual Microsoft.OData.ODataNestedResourceInfo CreateNavigationLink (Microsoft.OData.Edm.IEdmNavigationProperty navigationProperty, ResourceContext resourceContext)
 	public virtual Microsoft.OData.ODataAction CreateODataAction (Microsoft.OData.Edm.IEdmAction action, ResourceContext resourceContext)

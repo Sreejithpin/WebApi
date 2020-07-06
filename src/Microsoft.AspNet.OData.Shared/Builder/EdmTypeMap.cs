@@ -18,7 +18,8 @@ namespace Microsoft.AspNet.OData.Builder
             Dictionary<IEdmProperty, ModelBoundQuerySettings> edmPropertiesQuerySettings,
             Dictionary<IEdmStructuredType, ModelBoundQuerySettings> edmStructuredTypeQuerySettings,
             Dictionary<Enum, IEdmEnumMember> enumMembers,
-            Dictionary<IEdmStructuredType, PropertyInfo> openTypes)
+            Dictionary<IEdmStructuredType, PropertyInfo> openTypes,
+            Dictionary<IEdmStructuredType, PropertyInfo> instanceAnnotations )
         {
             EdmTypes = edmTypes;
             EdmProperties = edmProperties;
@@ -27,6 +28,7 @@ namespace Microsoft.AspNet.OData.Builder
             EdmStructuredTypeQuerySettings = edmStructuredTypeQuerySettings;
             EnumMembers = enumMembers;
             OpenTypes = openTypes;
+            InstanceAnnotations = instanceAnnotations;
         }
 
         public Dictionary<Type, IEdmType> EdmTypes { get; private set; }
@@ -42,5 +44,7 @@ namespace Microsoft.AspNet.OData.Builder
         public Dictionary<Enum, IEdmEnumMember> EnumMembers { get; private set; }
 
         public Dictionary<IEdmStructuredType, PropertyInfo> OpenTypes { get; private set; }
+
+        public Dictionary<IEdmStructuredType, PropertyInfo> InstanceAnnotations { get; private set; }
     }
 }
