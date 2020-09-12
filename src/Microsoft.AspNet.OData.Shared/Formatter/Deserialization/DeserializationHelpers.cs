@@ -62,7 +62,7 @@ namespace Microsoft.AspNet.OData.Formatter.Deserialization
         internal static void ApplyInstanceAnnotations(object resource, IEdmStructuredTypeReference structuredType, ODataResource oDataResource,
             ODataDeserializerProvider deserializerProvider, ODataDeserializerContext readContext)
         {   
-            PropertyInfo propertyInfo = EdmLibHelpers.GetInstanceAnnotationsDictionary(structuredType.StructuredDefinition(), readContext.Model);
+            PropertyInfo propertyInfo = EdmLibHelpers.GetInstanceAnnotationsContainer(structuredType.StructuredDefinition(), readContext.Model);
             if (propertyInfo == null)
             {
                 return;

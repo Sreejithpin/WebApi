@@ -1324,6 +1324,93 @@ namespace Microsoft.AspNet.OData.Test.Formatter.Serialization
         }
 
         [Fact]
+        public void CreateResource_Works_WithInstanceAnnotations_OnComplexType_AndPropertyInComplexType()
+        {
+            // Arrange
+            IEdmModel model = SerializationTestsHelpers.SimpleOpenTypeModel();
+
+            IEdmEntitySet customers = model.EntityContainer.FindEntitySet("Customers");
+
+            IEdmEntityType customerType = model.FindDeclaredType("Default.Customer") as IEdmEntityType;
+            Type simpleOpenCustomer = typeof(SimpleOpenCustomer);
+            model.SetAnnotationValue(customerType, new ClrTypeAnnotation(simpleOpenCustomer));
+
+            IEdmComplexType addressType = model.FindDeclaredType("Default.Address") as IEdmComplexType;
+            Type simpleOpenAddress = typeof(SimpleOpenAddress);
+            model.SetAnnotationValue(addressType, new ClrTypeAnnotation(simpleOpenAddress));
+
+            IEdmEnumType enumType = model.FindDeclaredType("Default.SimpleEnum") as IEdmEnumType;
+            Type simpleEnumType = typeof(SimpleEnum);
+            model.SetAnnotationValue(enumType, new ClrTypeAnnotation(simpleEnumType));
+
+            model.SetAnnotationValue(customerType, new InstanceAnnotationContainerAnnotation(
+            simpleOpenCustomer.GetProperty("InstanceAnnotations")));
+
+            model.SetAnnotationValue(addressType, new InstanceAnnotationContainerAnnotation(
+            simpleOpenAddress.GetProperty("InstanceAnnotations")));
+
+            var addr = new SimpleOpenAddress { City = "Redmond", Street = "152nd st" };
+
+            var lstAddr = new List<SimpleOpenAddress>() { addr };
+            var in1 = new Dictionary<string, object>();
+            in1.Add("NS.test1", lstAddr);
+
+            var in2 = new Dictionary<string, object>();
+            in2.Add("NS.test2", 345);
+
+            var instAnn = new ODataInstanceAnnotationContainer();
+            AddInstanceAnnotations(instAnn, in1, null);
+            AddInstanceAnnotations(instAnn, in2, "City");
+
+            ODataResourceSerializer serializer = new ODataResourceSerializer(_serializerProvider);
+
+            SelectExpandNode selectExpandNode = new SelectExpandNode(null, addressType, model);
+            ODataSerializerContext writeContext = new ODataSerializerContext
+            {
+                Model = model,
+                Path = new ODataPath(new EntitySetSegment(customers))
+            };
+            
+            SimpleOpenCustomer customer = new SimpleOpenCustomer()
+            {
+                CustomerId = 991,
+                Name = "Name #991",
+                Address = new SimpleOpenAddress
+                {
+                    City = "a city",
+                    Street = "a street",
+                    Properties = new Dictionary<string, object> { { "ArrayProperty", new[] { "15", "14", "13" } } },
+                    InstanceAnnotations = instAnn
+                }
+                
+            };
+
+            ResourceContext resourceContext = new ResourceContext(writeContext,
+                addressType.ToEdmTypeReference(false) as IEdmComplexTypeReference, customer.Address);
+
+            // Act
+            ODataResource resource = serializer.CreateResource(selectExpandNode, resourceContext);
+
+            // Assert
+            Assert.Equal("Default.Address", resource.TypeName);
+            Assert.Equal(2, resource.Properties.Count());
+
+            // Verify the declared properties
+            ODataProperty street = Assert.Single(resource.Properties.Where(p => p.Name == "Street"));
+            Assert.Equal("a street", street.Value);
+
+            //Verify Instance Annotations
+            Assert.Equal(1, resource.InstanceAnnotations.Count);
+            Assert.Equal(typeof(ODataCollectionValue), resource.InstanceAnnotations.First().Value.GetType());
+            Assert.True(((ODataCollectionValue)(resource.InstanceAnnotations.First().Value)).Items.Count() == 1);
+            Assert.Equal("Collection(Default.Address)", ((ODataCollectionValue)resource.InstanceAnnotations.First().Value).TypeName);
+            Assert.Equal("152nd st", ((ODataResourceValue)((ODataCollectionValue)(resource.InstanceAnnotations.First().Value)).Items.ToList().First()).Properties.ToList()[0].Value);
+            Assert.Equal("Redmond", ((ODataResourceValue)((ODataCollectionValue)(resource.InstanceAnnotations.First().Value)).Items.ToList().First()).Properties.ToList()[1].Value);
+            Assert.Equal(1, resource.Properties.ToList().Where(x => x.Name == "City").First().InstanceAnnotations.Count);
+        }
+
+
+        [Fact]
         public void CreateResource_Works_ToAppendDynamicProperties_ForOpenEntityType_WithAnnotations()
         {
             // Arrange

@@ -649,7 +649,7 @@ namespace Microsoft.AspNet.OData.Formatter.Serialization
         {
             IEdmStructuredType structuredType = resourceContext.StructuredType;
             IEdmStructuredObject structuredObject = resourceContext.EdmObject;
-            PropertyInfo instanceAnnotationInfo = EdmLibHelpers.GetInstanceAnnotationsDictionary(structuredType,
+            PropertyInfo instanceAnnotationInfo = EdmLibHelpers.GetInstanceAnnotationsContainer(structuredType,
                 resourceContext.EdmModel);
 
             object value;

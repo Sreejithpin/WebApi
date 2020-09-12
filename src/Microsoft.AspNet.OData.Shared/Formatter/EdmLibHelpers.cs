@@ -747,7 +747,7 @@ namespace Microsoft.AspNet.OData.Formatter
             return null;
         }
 
-        public static PropertyInfo GetInstanceAnnotationsDictionary(IEdmStructuredType edmType, IEdmModel edmModel)
+        public static PropertyInfo GetInstanceAnnotationsContainer(IEdmStructuredType edmType, IEdmModel edmModel)
         {
             if (edmType == null)
             {
