@@ -772,7 +772,7 @@ namespace Microsoft.AspNet.OData.Test.Builder
         {
             public int Id { get; set; }
             public string Name { get; set; }
-            public IDictionary<string, IDictionary<string, object>> InstanceAnnotations { get; set; }
+            public IODataInstanceAnnotationContainer InstanceAnnotations { get; set; }
         }
         public class EntityTypeWithDateAndTimeOfDay
         {

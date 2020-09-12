@@ -658,14 +658,14 @@ namespace Microsoft.AspNet.OData.Test.Builder
     public class SimpleAnnotationComplexType
     {
         public int IntProperty { get; set; }
-        public IDictionary<string, IDictionary<string, object>> InstanceAnnotations { get; set; }
+        public IODataInstanceAnnotationContainer InstanceAnnotations { get; set; }
     }
 
     public class BadAnnotationComplexType
     {
         public int IntProperty { get; set; }
-        public IDictionary<string, IDictionary<string, object>> InstanceAnnotations1 { get; set; }
-        public IDictionary<string, IDictionary<string, object>> InstanceAnnotations2 { get; set; }
+        public IODataInstanceAnnotationContainer InstanceAnnotations1 { get; set; }
+        public IODataInstanceAnnotationContainer InstanceAnnotations2 { get; set; }
     }
 
     public class MyDynamicProperty : Dictionary<string, object>

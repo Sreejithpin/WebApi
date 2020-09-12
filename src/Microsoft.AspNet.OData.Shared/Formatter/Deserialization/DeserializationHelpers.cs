@@ -59,7 +59,7 @@ namespace Microsoft.AspNet.OData.Formatter.Deserialization
         }
 
 
-        internal static void ApplyInstanceAnnotations(object resource, IEdmStructuredTypeReference structuredType, ODataResource oDataResource, 
+        internal static void ApplyInstanceAnnotations(object resource, IEdmStructuredTypeReference structuredType, ODataResource oDataResource,
             ODataDeserializerProvider deserializerProvider, ODataDeserializerContext readContext)
         {   
             PropertyInfo propertyInfo = EdmLibHelpers.GetInstanceAnnotationsDictionary(structuredType.StructuredDefinition(), readContext.Model);
@@ -79,13 +79,9 @@ namespace Microsoft.AspNet.OData.Formatter.Deserialization
                 value = propertyInfo.GetValue(resource);
             }
 
-            IDictionary<string, IDictionary<string, object>> instAnnotationDictionary = value as IDictionary<string, IDictionary<string, object>>;
-            if (instAnnotationDictionary == null)
-            {
-                instAnnotationDictionary = new Dictionary<string, IDictionary<string, object>>();
-            }
+            IODataInstanceAnnotationContainer instanceAnnotationContainer = GetAnnotationContainer(propertyInfo, value,resource,delta);
 
-            SetInstanceAnnotations(resource, propertyInfo.Name, deserializerProvider, readContext, oDataResource, instAnnotationDictionary);
+            SetInstanceAnnotations(oDataResource, instanceAnnotationContainer,deserializerProvider,readContext);
         }
 
         internal static void SetDynamicProperty(object resource, IEdmStructuredTypeReference resourceType,
@@ -266,66 +262,74 @@ namespace Microsoft.AspNet.OData.Formatter.Deserialization
             }
         }
 
-        internal static void SetInstanceAnnotations(object resource, string annotationPropertyName, ODataDeserializerProvider deserializerProvider,
-            ODataDeserializerContext readContext, ODataResource oDataResource, IDictionary<string, IDictionary<string, object>> instAnnotationDictionary)
+        internal static void SetInstanceAnnotations(ODataResource oDataResource, IODataInstanceAnnotationContainer instanceAnnotationContainer, 
+            ODataDeserializerProvider deserializerProvider, ODataDeserializerContext readContext)
         {
-            bool shouldSetInstanceAnnotations = false;
             if(oDataResource.InstanceAnnotations != null && oDataResource.InstanceAnnotations.Count > 0)
             {
-                string annotationKey = string.Empty;
-
-                if (!instAnnotationDictionary.ContainsKey(annotationKey))
+                foreach (ODataInstanceAnnotation annotation in oDataResource.InstanceAnnotations)
                 {
-                    instAnnotationDictionary.Add(annotationKey, new Dictionary<string, object>());
+                    AddInstanceAnnotationToContainer(instanceAnnotationContainer, deserializerProvider, readContext, annotation,string.Empty);
                 }
-
-                AddAnnotationsToDictionary(deserializerProvider, readContext, instAnnotationDictionary, oDataResource.InstanceAnnotations, annotationKey);
-                shouldSetInstanceAnnotations = true;
             }
 
             foreach(ODataProperty property in oDataResource.Properties)
             {
                 if(property.InstanceAnnotations != null && property.InstanceAnnotations.Count > 0)
                 {
-                    string annotationKey = property.Name;
-
-                    if (!instAnnotationDictionary.ContainsKey(annotationKey))
+                    foreach (ODataInstanceAnnotation annotation in property.InstanceAnnotations)
                     {
-                        instAnnotationDictionary.Add(annotationKey, new Dictionary<string, object>());
+                        AddInstanceAnnotationToContainer(instanceAnnotationContainer, deserializerProvider, readContext, annotation, property.Name);
                     }
-
-                    AddAnnotationsToDictionary(deserializerProvider, readContext, instAnnotationDictionary, property.InstanceAnnotations, annotationKey);
-                    shouldSetInstanceAnnotations = true;
                 }
-            }
-
-            if (shouldSetInstanceAnnotations)
-            {
-                SetProperty(resource, annotationPropertyName, instAnnotationDictionary);
             }
         }
 
-        private static void AddAnnotationsToDictionary(ODataDeserializerProvider deserializerProvider, ODataDeserializerContext readContext, IDictionary<string, IDictionary<string, object>> instAnnotationDictionary, ICollection<ODataInstanceAnnotation> instanceAnnotations, string annotationKey)
+        private static void AddInstanceAnnotationToContainer(IODataInstanceAnnotationContainer instanceAnnotationContainer, ODataDeserializerProvider deserializerProvider, 
+            ODataDeserializerContext readContext, ODataInstanceAnnotation annotation, string propertyName)
         {
-            foreach (ODataInstanceAnnotation annotation in instanceAnnotations)
+            EdmTypeKind type;
+            IEdmTypeReference propertyType = null;
+
+            object annotationValue = ConvertValue(annotation.Value, ref propertyType, deserializerProvider, readContext, out type);
+
+            if (string.IsNullOrEmpty(propertyName))
             {
-                EdmTypeKind type;
-                IEdmTypeReference propertyType = null;
-
-                object annotationValue = ConvertValue(annotation.Value, ref propertyType, deserializerProvider, readContext, out type);
-
-                if (instAnnotationDictionary[annotationKey].ContainsKey(annotation.Name))
-                {
-                    instAnnotationDictionary[annotationKey][annotation.Name] = annotationValue;
-                }
-                else
-                {
-                    instAnnotationDictionary[annotationKey].Add(annotation.Name, annotationValue);
-                }
+                instanceAnnotationContainer.AddAnnotation(annotation.Name, annotationValue);
+            }
+            else
+            {
+                instanceAnnotationContainer.AddPropertyAnnotation(propertyName,annotation.Name, annotationValue);
             }
         }
 
-        
+        public static IODataInstanceAnnotationContainer GetAnnotationContainer(PropertyInfo propertyInfo, object value, object resource, IDelta delta)
+        {
+            IODataInstanceAnnotationContainer instanceAnnotationContainer = value as IODataInstanceAnnotationContainer;
+
+            if (instanceAnnotationContainer == null)
+            {
+                try
+                {
+                    instanceAnnotationContainer = Activator.CreateInstance(propertyInfo.PropertyType) as IODataInstanceAnnotationContainer;
+                    if(delta != null)
+                    {
+                        delta.TrySetPropertyValue(propertyInfo.Name, instanceAnnotationContainer);
+                    }
+                    else
+                    {
+                        propertyInfo.SetValue(resource, instanceAnnotationContainer);
+                    }
+                }
+                catch(Exception ex)
+                {
+                    throw new ODataException("Cannot Create an instance for the property" + propertyInfo.Name, ex);
+                }
+            }
+
+            return instanceAnnotationContainer;
+        }
+
         internal static object ConvertValue(object oDataValue, ref IEdmTypeReference propertyType, ODataDeserializerProvider deserializerProvider,
             ODataDeserializerContext readContext, out EdmTypeKind typeKind)
         {

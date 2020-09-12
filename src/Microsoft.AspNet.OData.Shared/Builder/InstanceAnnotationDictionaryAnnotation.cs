@@ -13,20 +13,20 @@ namespace Microsoft.AspNet.OData.Builder
     /// The <see cref="IEdmStructuredType"/> is an open type and the <see cref="PropertyInfo"/> is the specific
     /// property which is used to save/retrieve the instance annotations.
     /// </summary>
-    public class InstanceAnnotationDictionaryAnnotation
+    public class InstanceAnnotationContainerAnnotation
     {
         /// <summary>
-        /// Initializes a new instance of <see cref="InstanceAnnotationDictionaryAnnotation"/> class.
+        /// Initializes a new instance of <see cref="InstanceAnnotationContainerAnnotation"/> class.
         /// </summary>
         /// <param name="propertyInfo">The backing <see cref="PropertyInfo"/>.</param>
-        public InstanceAnnotationDictionaryAnnotation(PropertyInfo propertyInfo)
+        public InstanceAnnotationContainerAnnotation(PropertyInfo propertyInfo)
         {
             if (propertyInfo == null)
             {
                 throw Error.ArgumentNull("propertyInfo");
             }
 
-            BuilderHelper.ValidateAssignableFrom(typeof(IDictionary<string, IDictionary<string, object>>), propertyInfo.PropertyType, "IDictionary<string, IDictionary<string, object>>");
+            BuilderHelper.ValidateAssignableFrom(typeof(IODataInstanceAnnotationContainer), propertyInfo.PropertyType, "IODataInstanceAnnotationContainer");
 
             PropertyInfo = propertyInfo;
         }

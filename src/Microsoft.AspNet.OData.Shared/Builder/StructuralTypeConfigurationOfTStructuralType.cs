@@ -97,7 +97,6 @@ namespace Microsoft.AspNet.OData.Builder
             }
         }
 
-
         internal StructuralTypeConfiguration Configuration
         {
             get { return _configuration; }
@@ -369,11 +368,11 @@ namespace Microsoft.AspNet.OData.Builder
             Justification = "Nested generics appropriate here")]
         [SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters",
             Justification = "More specific expression type is clearer")]
-        public void HasInstanceAnnotations(Expression<Func<TStructuralType, IDictionary<string, IDictionary<string, object>>>> propertyExpression)
+        public void HasInstanceAnnotations(Expression<Func<TStructuralType, IODataInstanceAnnotationContainer>> propertyExpression)
         {
             PropertyInfo propertyInfo = PropertySelectorVisitor.GetSelectedProperty(propertyExpression);
 
-            Configuration.AddInstanceAnnotationDictionary(propertyInfo);
+            Configuration.AddInstanceAnnotationContainer(propertyInfo);
         }
 
         /// <summary>
