@@ -666,11 +666,16 @@ namespace Microsoft.AspNet.OData.Formatter.Serialization
             {
                 IDictionary<string, object> clrAnnotations = instanceAnnotationContainer.GetAllTypeAnnotations();
 
+                if (resource.InstanceAnnotations == null)
+                {
+                    resource.InstanceAnnotations = new List<ODataInstanceAnnotation>();
+                }
+
                 if (clrAnnotations != null)
                 {
                     foreach (KeyValuePair<string, object> annotation in clrAnnotations)
                     {
-                        AddODataAnnotations(resource, null, resourceContext, annotation);
+                        AddODataAnnotations(resource.InstanceAnnotations, resourceContext, annotation);
                     }
                 }
                                 
@@ -689,14 +694,14 @@ namespace Microsoft.AspNet.OData.Formatter.Serialization
                     {
                         foreach (KeyValuePair<string, object> annotation in propertyAnnotations)
                         {
-                            AddODataAnnotations(null, property, resourceContext, annotation);
+                            AddODataAnnotations(property.InstanceAnnotations, resourceContext, annotation);
                         }
                     }                    
                 } 
             }
         }
 
-        private void AddODataAnnotations(ODataResource resource, ODataProperty property, ResourceContext resourceContext, KeyValuePair<string, object> annotation)
+        private void AddODataAnnotations(ICollection<ODataInstanceAnnotation> InstanceAnnotations, ResourceContext resourceContext, KeyValuePair<string, object> annotation)
         {
             ODataValue annotationValue = null;
 
@@ -719,14 +724,7 @@ namespace Microsoft.AspNet.OData.Formatter.Serialization
 
             if (annotationValue != null)
             {
-                if (resource != null)
-                {
-                    resource.InstanceAnnotations.Add(new ODataInstanceAnnotation(annotation.Key, annotationValue));
-                }
-                else if(property != null)
-                {
-                    property.InstanceAnnotations.Add(new ODataInstanceAnnotation(annotation.Key, annotationValue));
-                }
+                InstanceAnnotations.Add(new ODataInstanceAnnotation(annotation.Key, annotationValue));               
             }            
         }
 
