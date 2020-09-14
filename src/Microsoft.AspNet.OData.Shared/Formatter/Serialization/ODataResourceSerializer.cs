@@ -664,13 +664,13 @@ namespace Microsoft.AspNet.OData.Formatter.Serialization
 
             if (instanceAnnotationContainer != null)
             {
-                IDictionary<string, object> clrAnnotations = instanceAnnotationContainer.GetAllAnnotations();
+                IDictionary<string, object> clrAnnotations = instanceAnnotationContainer.GetAllTypeAnnotations();
 
                 if (clrAnnotations != null)
                 {
                     foreach (KeyValuePair<string, object> annotation in clrAnnotations)
                     {
-                        AddOdataAnnotations(resource,null, resourceContext, annotation);
+                        AddODataAnnotations(resource, null, resourceContext, annotation);
                     }
                 }
                                 
@@ -683,20 +683,20 @@ namespace Microsoft.AspNet.OData.Formatter.Serialization
                         property.InstanceAnnotations = new List<ODataInstanceAnnotation>();
                     }
 
-                    IDictionary<string, object> propertyAnnotations = instanceAnnotationContainer.GetAllPropertyAnnotation(propertyName);
+                    IDictionary<string, object> propertyAnnotations = instanceAnnotationContainer.GetAllPropertyAnnotations(propertyName);
 
                     if (propertyAnnotations != null)
                     {
                         foreach (KeyValuePair<string, object> annotation in propertyAnnotations)
                         {
-                            AddOdataAnnotations(null,property, resourceContext, annotation);
+                            AddODataAnnotations(null, property, resourceContext, annotation);
                         }
                     }                    
                 } 
             }
         }
 
-        private void AddOdataAnnotations(ODataResource resource, ODataProperty property, ResourceContext resourceContext, KeyValuePair<string, object> annotation)
+        private void AddODataAnnotations(ODataResource resource, ODataProperty property, ResourceContext resourceContext, KeyValuePair<string, object> annotation)
         {
             ODataValue annotationValue = null;
 

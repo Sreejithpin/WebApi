@@ -155,7 +155,7 @@ namespace Microsoft.AspNet.OData.Builder
         /// <summary>
         /// Gets the CLR property info of the instance annotations dictionary on this structural type.
         /// </summary>
-        public PropertyInfo InstanceAnnotationsDictionary
+        public PropertyInfo InstanceAnnotationsContainer
         {
             get { return _instanceAnnotationContainer; }
         }

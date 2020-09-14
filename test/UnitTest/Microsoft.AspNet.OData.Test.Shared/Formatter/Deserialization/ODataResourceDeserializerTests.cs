@@ -593,9 +593,9 @@ namespace Microsoft.AspNet.OData.Test.Formatter.Deserialization
             Assert.Equal(new List<int> { 1, 2, 3, 4 }, collectionValues[1].Properties["ArrayProperty"]);
 
             //Verify Instance Annotations
-            Assert.Equal(1, customer.InstanceAnnotations.GetAllAnnotations().Count);
-            Assert.Equal(1, collectionValues[1].InstanceAnnotations.GetAllPropertyAnnotation("Street").Count);
-            Assert.Equal("NS.Test2", customer.InstanceAnnotations.GetAllAnnotations().First().Key);
+            Assert.Equal(1, customer.InstanceAnnotations.GetAllTypeAnnotations().Count);
+            Assert.Equal(1, collectionValues[1].InstanceAnnotations.GetAllPropertyAnnotations("Street").Count);
+            Assert.Equal("NS.Test2", customer.InstanceAnnotations.GetAllTypeAnnotations().First().Key);
         }
 
         [Fact]
@@ -742,9 +742,9 @@ namespace Microsoft.AspNet.OData.Test.Formatter.Deserialization
             Assert.Equal(new List<int> { 1, 2, 3, 4 }, collectionValues[1].Properties["ArrayProperty"]);
 
             //Verify Instance Annotations
-            var dict1 = customer.InstanceAnnotations.GetAllAnnotations();
-            var dict2 = collectionValues[1].InstanceAnnotations.GetAllPropertyAnnotation("Street");
-            var dict3 = customer.InstanceAnnotations.GetAllPropertyAnnotation("GuidProperty"); 
+            var dict1 = customer.InstanceAnnotations.GetAllTypeAnnotations();
+            var dict2 = collectionValues[1].InstanceAnnotations.GetAllPropertyAnnotations("Street");
+            var dict3 = customer.InstanceAnnotations.GetAllPropertyAnnotations("GuidProperty"); 
 
             Assert.Equal(3, dict1.Count+dict2.Count+dict3.Count);
             Assert.Equal("NS.Test2", dict1.First().Key);
@@ -814,7 +814,7 @@ namespace Microsoft.AspNet.OData.Test.Formatter.Deserialization
             Assert.Equal("Name #991", customer.Name);
 
             //Verify Instance Annotations
-            var dict1 = customer.InstanceAnnotations.GetAllAnnotations();
+            var dict1 = customer.InstanceAnnotations.GetAllTypeAnnotations();
 
             Assert.Equal(1, dict1.Count);
             Assert.Equal(typeof(ODataResourceValue), dict1["NS.Test2"].GetType());
@@ -968,8 +968,8 @@ namespace Microsoft.AspNet.OData.Test.Formatter.Deserialization
             // Assert
             Assert.NotNull(customer);
             Assert.Equal(991, customer.CustomerId);
-            Assert.Equal(1, customer.InstanceAnnotations.GetAllPropertyAnnotation("GuidProperty").Count);
-            Assert.Equal(1, customer.InstanceAnnotations.GetAllPropertyAnnotation("CustomerId").Count);
+            Assert.Equal(1, customer.InstanceAnnotations.GetAllPropertyAnnotations("GuidProperty").Count);
+            Assert.Equal(1, customer.InstanceAnnotations.GetAllPropertyAnnotations("CustomerId").Count);
         }
         [Fact]
         public void CreateResourceInstance_ThrowsArgumentNull_ReadContext()

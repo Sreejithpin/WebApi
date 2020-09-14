@@ -177,7 +177,7 @@ namespace Microsoft.AspNet.OData.Formatter.Serialization
                     if (itemSerializer == null)
                     {
                         //For instance annotations we need to use complex serializer for complex type and not ODataResourceSerializer
-                        if (isForAnnotations && actualType.IsComplex())
+                        if (isForAnnotations && actualType.IsStructured())
                         {
                             itemSerializer = new ODataResourceValueSerializer(SerializerProvider);
                         }

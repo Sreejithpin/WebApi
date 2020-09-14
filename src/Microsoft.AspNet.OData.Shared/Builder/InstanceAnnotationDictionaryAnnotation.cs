@@ -10,7 +10,7 @@ namespace Microsoft.AspNet.OData.Builder
 {
     /// <summary>
     /// This annotation indicates the mapping from a <see cref="IEdmStructuredType"/> to a <see cref="PropertyInfo"/>.
-    /// The <see cref="IEdmStructuredType"/> is an open type and the <see cref="PropertyInfo"/> is the specific
+    /// The <see cref="IEdmStructuredType"/> is a type of IODataInstanceAnnotationContainer and the <see cref="PropertyInfo"/> is the specific
     /// property which is used to save/retrieve the instance annotations.
     /// </summary>
     public class InstanceAnnotationContainerAnnotation

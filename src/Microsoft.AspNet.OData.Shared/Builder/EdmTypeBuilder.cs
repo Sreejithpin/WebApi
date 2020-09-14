@@ -97,7 +97,7 @@ namespace Microsoft.AspNet.OData.Builder
                     if (complex.SupportsInstanceAnnotations)
                     {
                         // add a mapping between the complex type and its instance annotation dictionary.
-                        _instanceAnnotableTypes.Add(complexType, complex.InstanceAnnotationsDictionary);
+                        _instanceAnnotableTypes.Add(complexType, complex.InstanceAnnotationsContainer);
                     }
 
                     edmType = complexType;
@@ -129,7 +129,7 @@ namespace Microsoft.AspNet.OData.Builder
                     if (entity.SupportsInstanceAnnotations)
                     {
                         // add a mapping between the entity type and its instance annotation dictionary.
-                        _instanceAnnotableTypes.Add(entityType, entity.InstanceAnnotationsDictionary);
+                        _instanceAnnotableTypes.Add(entityType, entity.InstanceAnnotationsContainer);
                     }
 
                     edmType = entityType;

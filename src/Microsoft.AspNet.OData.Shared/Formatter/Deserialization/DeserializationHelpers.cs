@@ -68,18 +68,7 @@ namespace Microsoft.AspNet.OData.Formatter.Deserialization
                 return;
             }
 
-            IDelta delta = resource as IDelta;
-            object value;
-            if (delta != null)
-            {                
-                delta.TryGetPropertyValue(propertyInfo.Name, out value);
-            }
-            else
-            {
-                value = propertyInfo.GetValue(resource);
-            }
-
-            IODataInstanceAnnotationContainer instanceAnnotationContainer = GetAnnotationContainer(propertyInfo, value,resource,delta);
+            IODataInstanceAnnotationContainer instanceAnnotationContainer = GetAnnotationContainer(propertyInfo, resource);
 
             SetInstanceAnnotations(oDataResource, instanceAnnotationContainer,deserializerProvider,readContext);
         }
@@ -265,7 +254,7 @@ namespace Microsoft.AspNet.OData.Formatter.Deserialization
         internal static void SetInstanceAnnotations(ODataResource oDataResource, IODataInstanceAnnotationContainer instanceAnnotationContainer, 
             ODataDeserializerProvider deserializerProvider, ODataDeserializerContext readContext)
         {
-            if(oDataResource.InstanceAnnotations != null && oDataResource.InstanceAnnotations.Count > 0)
+            if(oDataResource.InstanceAnnotations != null)
             {
                 foreach (ODataInstanceAnnotation annotation in oDataResource.InstanceAnnotations)
                 {
@@ -275,7 +264,7 @@ namespace Microsoft.AspNet.OData.Formatter.Deserialization
 
             foreach(ODataProperty property in oDataResource.Properties)
             {
-                if(property.InstanceAnnotations != null && property.InstanceAnnotations.Count > 0)
+                if(property.InstanceAnnotations != null)
                 {
                     foreach (ODataInstanceAnnotation annotation in property.InstanceAnnotations)
                     {
@@ -303,15 +292,34 @@ namespace Microsoft.AspNet.OData.Formatter.Deserialization
             }
         }
 
-        public static IODataInstanceAnnotationContainer GetAnnotationContainer(PropertyInfo propertyInfo, object value, object resource, IDelta delta)
+        public static IODataInstanceAnnotationContainer GetAnnotationContainer(PropertyInfo propertyInfo, object resource)
         {
+            IDelta delta = resource as IDelta;
+            object value;
+            if (delta != null)
+            {
+                delta.TryGetPropertyValue(propertyInfo.Name, out value);
+            }
+            else
+            {
+                value = propertyInfo.GetValue(resource);
+            }
+
             IODataInstanceAnnotationContainer instanceAnnotationContainer = value as IODataInstanceAnnotationContainer;
 
             if (instanceAnnotationContainer == null)
             {
                 try
                 {
-                    instanceAnnotationContainer = Activator.CreateInstance(propertyInfo.PropertyType) as IODataInstanceAnnotationContainer;
+                    if (propertyInfo.PropertyType == typeof(ODataInstanceAnnotationContainer) || propertyInfo.PropertyType == typeof(IODataInstanceAnnotationContainer))
+                    {
+                        instanceAnnotationContainer = new ODataInstanceAnnotationContainer();
+                    }
+                    else
+                    {
+                        instanceAnnotationContainer = Activator.CreateInstance(propertyInfo.PropertyType) as IODataInstanceAnnotationContainer;
+                    }
+
                     if(delta != null)
                     {
                         delta.TrySetPropertyValue(propertyInfo.Name, instanceAnnotationContainer);
