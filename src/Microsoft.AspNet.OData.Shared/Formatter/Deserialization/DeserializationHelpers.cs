@@ -58,10 +58,9 @@ namespace Microsoft.AspNet.OData.Formatter.Deserialization
             }
         }
 
-
         internal static void ApplyInstanceAnnotations(object resource, IEdmStructuredTypeReference structuredType, ODataResource oDataResource,
             ODataDeserializerProvider deserializerProvider, ODataDeserializerContext readContext)
-        {   
+        {
             PropertyInfo propertyInfo = EdmLibHelpers.GetInstanceAnnotationsContainer(structuredType.StructuredDefinition(), readContext.Model);
             if (propertyInfo == null)
             {
@@ -70,7 +69,7 @@ namespace Microsoft.AspNet.OData.Formatter.Deserialization
 
             IODataInstanceAnnotationContainer instanceAnnotationContainer = GetAnnotationContainer(propertyInfo, resource);
 
-            SetInstanceAnnotations(oDataResource, instanceAnnotationContainer,deserializerProvider,readContext);
+            SetInstanceAnnotations(oDataResource, instanceAnnotationContainer, deserializerProvider, readContext);
         }
 
         internal static void SetDynamicProperty(object resource, IEdmStructuredTypeReference resourceType,
@@ -284,7 +283,7 @@ namespace Microsoft.AspNet.OData.Formatter.Deserialization
 
             if (string.IsNullOrEmpty(propertyName))
             {
-                instanceAnnotationContainer.AddAnnotation(annotation.Name, annotationValue);
+                instanceAnnotationContainer.AddTypeAnnotation(annotation.Name, annotationValue);
             }
             else
             {
@@ -328,6 +327,7 @@ namespace Microsoft.AspNet.OData.Formatter.Deserialization
                     {
                         propertyInfo.SetValue(resource, instanceAnnotationContainer);
                     }
+
                 }
                 catch(Exception ex)
                 {

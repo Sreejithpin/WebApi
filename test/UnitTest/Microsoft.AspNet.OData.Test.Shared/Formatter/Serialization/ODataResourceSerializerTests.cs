@@ -1051,7 +1051,7 @@ namespace Microsoft.AspNet.OData.Test.Formatter.Serialization
             {
                 foreach (var kv in annotation)
                 {
-                    container.AddAnnotation(kv.Key, kv.Value);
+                    container.AddTypeAnnotation(kv.Key, kv.Value);
                 }
             }
             else
